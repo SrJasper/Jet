@@ -1,0 +1,293 @@
+#:include Times.kv
+#:include PL.kv
+
+<Botao@MDNavigationDrawerItem>
+    focus_color: 1, 1, 1, 0.2
+    text_color: 1, 1, 1, 0.3
+    icon_color: "#4a4939"
+    ripple_color: "#c5bdd2"
+    selected_color: 1, 1, 1
+    on_release:
+        app.root.ids.titulo.title = self.text
+        app.root.ids.nav.set_state("close")
+        app.root.ids.com.disabled = False
+
+<Voltar@MDIconButton>
+    icon: "arrow-left-circle"
+    theme_icon_color: "Custom"
+    icon_color: "#3f51b5"
+    icon_size: "40sp"
+
+
+<Ger>
+    id: ger
+    MDScreen:
+        name: "menu"
+        FloatLayout:
+            orientation: "vertical"
+
+            FitImage:
+                pos_hint: {"center_x": .5, "center_y": .75}
+                size_hint_y: None
+                size_hint_x: None
+                width: 200
+                length: 150
+                source: "tit.png"
+
+            MDRaisedButton:
+                text: "Jogar"
+                pos_hint: {"center_x": .5, "center_y": .50}
+                on_release:
+                    root.current = "nomes"
+                    app.onNomes()
+
+            MDRaisedButton:
+                text: "Jogos"
+                pos_hint: {"center_x": .5, "center_y": .40}
+                on_release:
+                    root.current = "locais"
+                    app.AbrirLocais()
+
+            MDRaisedButton:
+                text: "Locais"
+                pos_hint: {"center_x": .5, "center_y": .30}
+                on_release:
+                    root.current = "jogos"
+                    app.AbrirJogos()
+
+            MDRaisedButton:
+                text: "Regras"
+                pos_hint: {"center_x": .5, "center_y": .20}
+                on_release:
+
+
+
+#######################################   LOCAIS   ###################################################################
+    MDScreen:
+        name: "locais"
+
+        MDTopAppBar:
+            title: "Jogos"
+            pos_hint: {"top": 1}
+
+        MDFloatLayout:
+            id:LayoutLocais
+            orientation: "vertical"
+
+        MDIconButton:
+            icon: "home"
+            pos_hint: {"center_x": .9, "center_y": .935}
+            on_release:
+                root.current = "menu"
+
+        MDFloatLayout:
+            id: BotLocais
+            pos_hint:{"center_y": 0.6}
+            MDTextField:
+                id: CaixaLocal
+                halign: "center"
+                pos_hint: {"center_x": .43, "center_y": -0.03}
+                size_hint: .75, .08
+                mode: "round"
+                hint_text: "nome"
+            MDIconButton:
+                icon: "plus-circle"
+                icon_size: "45sp"
+                pos_hint: {"center_x": .9, "center_y": -0.03}
+                theme_icon_color: "Custom"
+                icon_color: "#3f51b5"
+                on_release:
+                    app.addLocal(CaixaLocal.text)
+                    CaixaLocal.text = ""
+
+#####################################    JOGOS    #####################################################################
+    MDScreen:
+        name: "jogos"
+
+        MDTopAppBar:
+            title: "Locais"
+            pos_hint: {"top": 1}
+
+        MDFloatLayout:
+            id:LayoutJogos
+            orientation: "vertical"
+
+        MDIconButton:
+            icon: "home"
+            pos_hint: {"center_x": .9, "center_y": .935}
+            on_release:
+                root.current = "menu"
+
+        MDFloatLayout:
+            id: BotJogos
+            pos_hint:{"center_y": 0.6}
+            MDTextField:
+                id: CaixaJogos
+                halign: "center"
+                pos_hint: {"center_x": .43, "center_y": -0.03}
+                size_hint: .75, .08
+                mode: "round"
+                hint_text: "nome"
+            MDIconButton:
+                icon: "plus-circle"
+                icon_size: "45sp"
+                pos_hint: {"center_x": .9, "center_y": -0.03}
+                theme_icon_color: "Custom"
+                icon_color: "#3f51b5"
+                on_release:
+                    app.addJogo(CaixaJogos.text)
+                    CaixaJogos.text = ""
+
+########################################    PRINCIPAL    ##################################################################
+    MDScreen:
+        name:"nomes"
+        MDTopAppBar:
+            id: titulo
+            title: "JeT"
+            left_action_items: [['menu', lambda x: nav.set_state("open")]]
+            pos_hint: {"top": 1}
+
+        MDFloatLayout:
+            id: box
+            orientation: "vertical"
+
+            MDFloatLayout: #design boxlayout
+                id: lista
+                padding: 10
+
+            MDFloatLayout:
+                id: inter
+                pos_hint:{"center_y": 0.6}
+                MDTextField:
+                    id: caixa
+                    halign: "center"
+                    pos_hint: {"center_x": .4, "center_y": .06}
+                    size_hint: .75, .08
+                    mode: "round"
+                    hint_text: "nome"
+                MDIconButton:
+                    icon: "plus-circle"
+                    icon_size: "45sp"
+                    pos_hint: {"center_x": .85, "center_y": .06}
+                    theme_icon_color: "Custom"
+                    icon_color: "#3f51b5"
+                    on_release:
+                        app.addPlayer(caixa.text)
+                        caixa.text = ""
+
+            MDBoxLayout:
+                size_hint: 1, 0.1
+                MDRaisedButton:
+                    id: com
+                    disabled: True
+                    size_hint: 0.5,1
+                    text: "Começar"
+                    on_release: app.comecar(titulo.title)
+
+        MDNavigationDrawer:
+            id: nav
+            scrim_color: 1, 1, 0, 1
+            radius: (0, 16, 16, 0)
+
+            MDNavigationDrawerMenu:
+                Botao:
+                    text: "Espião"
+                Botao:
+                    text: "Povo e ladrão"
+                Botao:
+                    text: "Drawer"
+                Botao:
+                    text: "Times"
+
+        MDIconButton:
+            icon: "home"
+            pos_hint: {"center_x": .9, "center_y": .935}
+            on_release:
+                root.current = "menu"
+
+
+
+######################################################     Tela Times     ######################################################
+    MontadorTime:
+        id: MontTimes
+        name: "MontTimes"
+        Voltar:
+            on_release:
+                root.current = "nomes"
+                app.SortJogo()
+
+    TelaListaTimes:
+        id: TelaTimes
+        name: "TelaTimes"
+        Voltar:
+            on_release:
+                root.current = "MontTimes"
+
+
+##############################################     Tela Drawer    ###############################################################
+    MDScreen:
+        name: "Drawer"
+
+        MDFloatLayout:
+            id: drawSc
+            MDRaisedButton:
+                id: ButtonDrawerId
+                text:"Sortear\nJogador"
+                font_size:"20sp"
+                pos_hint:{"center_x": .5, "center_y": .6}
+                size_hint:(.5, .4)
+                on_release:
+                    app.ButtonDrawer()
+
+            MDRaisedButton:
+                text:"Recomeçar sorteio"
+                font_size:"16sp"
+                pos_hint:{"center_x": .5, "center_y": .15}
+                size_hint:(.1, .1)
+                on_release:
+                    DrLabel.text = ""
+                    app.restaurarJogadores()
+
+            MDLabel:
+                id:DrLabel
+                text:""
+                font_size:"20sp"
+                halign:"center"
+                pos_hint:{"center_x": .5, "center_y": .3}
+
+        Voltar:
+            on_release:
+                root.current = "nomes"
+                DrLabel.text = ""
+################################################    TELA POVO E LADRÃO    #############################################################
+    PLScreen:
+        id: PL
+        name: "PL"
+
+        #    on_release: app.PL()
+
+        Voltar:
+            on_release:
+                root.current = "nomes"
+
+
+
+###############################################        TELA SPY      ########################################################################
+    MDScreen:
+        name: "Spy"
+        MDTopAppBar:
+            id: titulo2
+            title: "Espião"
+            pos_hint: {"top": 1}
+
+        MDRaisedButton:
+            id: SpyText
+            text: "Sortear\njogador"
+            font_size: "20sp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            size_hint: .5, .4
+            on_release: app.Spy()
+
+        Voltar:
+            on_release:
+                root.current = "nomes"

@@ -1,0 +1,32 @@
+<MontadorTime>
+    MDLabel:
+        text:"Jogadores por equipe"
+        halign:"center"
+        pos_hint:{'center_x': .5, 'center_y': .8}
+
+    MDTextField:
+        id: jogsPorTime
+        halign:"center"
+        pos_hint: {"center_x": .5, "center_y": .7}
+        size_hint: (.4, .08)
+        mode: "round"
+        text: "2"
+
+    MDRaisedButton:
+        text: "Sortear\ntimes"
+        font_size: "20sp"
+        halign: "center"
+        pos_hint: {"center_x": .5, "center_y": .5}
+        size_hint: (.5, .2)
+        on_release:
+            app.ButtonTim()
+
+<TelaListaTimes>
+    MDFloatLayout:
+        id:listaTime
+
+    MDRaisedButton:
+        pos_hint: {"center_x": .5, "center_y": .95}
+        text: "Novo Sorteio"
+        on_release:
+            app.SortTimes()
